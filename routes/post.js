@@ -5,6 +5,7 @@ const uploadImage = require("../middlewares/multer");
 const router = express.Router();
 
 router.get("/", postController.index);
+router.get("/:id", postController.show);
 router.post(
   "/",
   uploadImage("posts").
