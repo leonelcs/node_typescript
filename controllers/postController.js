@@ -1,13 +1,21 @@
+const Post = require("../models/post")
 const validationError = require("../validations/validationHandler");
+
 
 exports.index = (req, res) => {
     res.send({message: "Hi"});
 }
 
-exports.store = (req, res, next) => {
+exports.store = async (req, res, next) => {
     try {
         validationError(req);
-        res.send({ message: "The name is " + req.body.name})
+        let post = new Post();
+        post.description = req.body.description;
+        post.image = req.file.filename;
+
+        post = await post.save();
+
+        res.send(post);
     } catch (err) {
         next(err);
     }
